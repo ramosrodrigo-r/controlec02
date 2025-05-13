@@ -14,19 +14,19 @@ public class SegurancaConfig {
 
 
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Desabilita CSRF (recomendado só para APIs públicas)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/**").permitAll()  // Libera endpoint de criação de usuário
+                        .requestMatchers("/usuarios/**","/usuarios", "/cadastrarpapel", "/papeis", "/co2").permitAll()
                         .anyRequest().authenticated()                 // Exige login para os demais
                 )
-                .httpBasic(Customizer.withDefaults()); // Habilita autenticação básica (opcional para agora)
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
